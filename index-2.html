@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Scottish Eight — Scotland 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a1a0f;
+  --bg2:#0f2415;
+  --bg3:#162d1c;
+  --gold:#c9a84c;
+  --gold2:#e8c97a;
+  --gold3:#f5e6b8;
+  --green:#1a4a2a;
+  --green2:#2a6040;
+  --text:#e8dfc8;
+  --text2:#b8a878;
+  --text3:#7a6a4a;
+  --red:#e05050;
+  --pos:#4caf7a;
+  --border:rgba(201,168,76,0.25);
+  --border2:rgba(201,168,76,0.15);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;min-height:100vh;display:flex;flex-direction:column}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:180px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100}
+.logo-area{padding:20px 16px;border-bottom:1px solid var(--border);text-align:center}
+.logo-area .crest{font-size:28px;margin-bottom:4px}
+.logo-area h2{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:1px;line-height:1.3}
+.logo-area p{font-size:10px;color:var(--text3);letter-spacing:0.5px;margin-top:4px}
+.nav{flex:1;padding:12px 0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;color:var(--text2);font-size:12px;letter-spacing:0.3px;transition:all 0.2s;border-left:3px solid transparent}
+.nav-item:hover{background:var(--bg3);color:var(--gold2)}
+.nav-item.active{background:var(--green);color:var(--gold);border-left:3px solid var(--gold)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border);text-align:center}
+.sidebar-footer p{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);opacity:0.7}
+.sidebar-footer small{font-size:10px;color:var(--text3)}
+
+/* MAIN */
+.main{margin-left:180px;min-height:100vh;display:flex;flex-direction:column}
+
+/* TOPBAR */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-family:'Cinzel',serif}
+.topbar-title h1{font-size:20px;color:var(--gold);letter-spacing:2px}
+.topbar-title p{font-size:10px;color:var(--text3);letter-spacing:1px}
+.topbar-widgets{display:flex;gap:12px}
+.widget-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 14px;text-align:center;min-width:100px}
+.widget-box .wlabel{font-size:9px;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase}
+.widget-box .wvalue{font-size:20px;font-weight:600;color:var(--gold);font-family:'Cinzel',serif}
+.widget-box .wsub{font-size:9px;color:var(--text2)}
+.widget-box .weather-row{display:flex;align-items:center;gap:8px;margin-top:2px}
+.widget-box .weather-row span{font-size:12px;color:var(--text2)}
+
+/* CONTENT AREA */
+.content{flex:1;padding:16px 20px;overflow-y:auto}
+.page{display:none}
+.page.active{display:block}
+
+/* GRID LAYOUT */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+.full-row{margin-bottom:12px}
+
+/* PANELS */
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.panel-header{background:var(--green);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.panel-header h3{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
+.panel-header span{font-size:10px;color:var(--text2)}
+.panel-body{padding:12px 14px}
+
+/* LEADERBOARD TABLE */
+.lb-table{width:100%;border-collapse:collapse}
+.lb-table th{font-size:10px;color:var(--text3);letter-spacing:0.5px;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border2);text-transform:uppercase}
+.lb-table th.center{text-align:center}
+.lb-table td{padding:7px 8px;border-bottom:1px solid var(--border2);color:var(--text);font-size:12px}
+.lb-table tr:last-child td{border-bottom:none}
+.lb-table tr:hover td{background:rgba(201,168,76,0.05)}
+.pos-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:600}
+.pos-1{background:var(--gold);color:#1a0f00}
+.pos-2{background:#888;color:#fff}
+.pos-3{background:#8B5A2B;color:#fff}
+.pos-other{background:var(--bg3);color:var(--text3)}
+.hcp-pill{font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 6px;border-radius:3px}
+.rd-score{text-align:center;font-size:12px;color:var(--text2);min-width:28px}
+.rd-score.has-score{color:var(--gold2);font-weight:500}
+.total-score{font-weight:600;font-size:14px;color:var(--gold)}
+.dash{color:var(--text3);font-size:11px}
+
+/* PRÓXIMA RODADA */
+.next-round-img{width:100%;height:100px;object-fit:cover;border-radius:4px;background:linear-gradient(135deg,#0f2415,#1a4a2a);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:10px}
+.next-round-img img{width:100%;height:100%;object-fit:cover}
+.next-course{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin-bottom:4px}
+.next-round-num{font-size:11px;color:var(--text3);margin-bottom:8px}
+.next-info-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px;color:var(--text2)}
+.next-info-row svg{width:12px;height:12px;color:var(--gold);flex-shrink:0}
+.btn-gold{display:block;width:100%;margin-top:10px;padding:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f00;font-size:11px;font-weight:600;letter-spacing:0.5px;text-align:center;border:none;border-radius:5px;cursor:pointer;font-family:'Cinzel',serif}
+.btn-gold:hover{opacity:0.9}
+
+/* FINANCIAL */
+.fin-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border2);font-size:12px}
+.fin-row:last-child{border-bottom:none}
+.fin-pos{color:var(--pos);font-weight:600}
+.fin-neg{color:var(--red);font-weight:600}
+.fin-rank{font-size:10px;color:var(--text3);margin-right:6px}
+
+/* SIDE GAMES */
+.sg-section{margin-bottom:10px}
+.sg-title{font-size:10px;color:var(--gold);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border2)}
+.sg-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:11px;color:var(--text2)}
+.sg-hole{background:var(--bg3);padding:2px 7px;border-radius:3px;font-size:10px;color:var(--gold2)}
+
+/* APOSTAS STRUCTURE */
+.nassau-boxes{display:flex;align-items:center;gap:6px;justify-content:center;margin:10px 0}
+.nassau-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;text-align:center;min-width:60px}
+.nassau-box .nval{font-family:'Cinzel',serif;font-size:18px;color:var(--gold)}
+.nassau-box .nlabel{font-size:9px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+.nassau-plus{color:var(--gold);font-size:18px;font-weight:300}
+.nassau-total{text-align:center;font-size:11px;color:var(--text2);margin-top:4px}
+.bet-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border2);font-size:12px;color:var(--text2)}
+.bet-line:last-child{border-bottom:none}
+.bet-line strong{color:var(--gold2)}
+.sweepstake-badge{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f00;font-weight:700;padding:3px 10px;border-radius:4px;font-size:13px;font-family:'Cinzel',serif}
+
+/* SCHEDULE */
+.sched-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border2)}
+.sched-row:last-child{border-bottom:none}
+.sched-rd{width:32px;height:32px;background:var(--green);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11px;color:var(--gold);flex-shrink:0}
+.sched-date{font-size:10px;color:var(--text3);margin-bottom:2px}
+.sched-course{font-size:13px;color:var(--text);font-weight:500}
+.sched-format{font-size:10px;color:var(--text2)}
+.sched-thumb{width:48px;height:36px;border-radius:4px;background:var(--green2);flex-shrink:0;overflow:hidden}
+.sched-ctp{margin-left:auto;text-align:right;font-size:10px;color:var(--text3)}
+.sched-ctp span{display:block;color:var(--gold2)}
+
+/* PLAYERS PAGE */
+.player-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.player-avatar{width:44px;height:44px;border-radius:50%;background:var(--green2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;color:var(--gold);margin-bottom:4px}
+.player-name{font-size:13px;font-weight:500;color:var(--text)}
+.player-hcp{font-size:11px;color:var(--text3)}
+.player-stats-row{display:flex;gap:8px}
+.player-stat{flex:1;background:var(--bg2);border-radius:4px;padding:5px 6px;text-align:center}
+.player-stat .ps-val{font-size:14px;font-weight:600;color:var(--gold)}
+.player-stat .ps-lbl{font-size:9px;color:var(--text3)}
+
+/* LIVE SCORING */
+.live-round-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.live-tab{padding:5px 12px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);border-radius:4px;cursor:pointer;font-size:11px}
+.live-tab.active{background:var(--green);color:var(--gold);border-color:var(--gold)}
+.score-entry-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.score-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px}
+.score-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.score-card-name{font-size:12px;font-weight:500;color:var(--text)}
+.stbl-badge{background:var(--green);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600;color:var(--gold)}
+.holes-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:6px}
+.hole-label{font-size:9px;color:var(--text3);text-align:center}
+.hole-input{width:100%;padding:3px 1px;text-align:center;background:var(--bg2);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:12px}
+.hole-input:focus{outline:none;border-color:var(--gold)}
+.halves-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:5px}
+.half-box{background:var(--bg2);border-radius:3px;padding:4px;text-align:center;font-size:10px;color:var(--text3)}
+.half-box span{display:block;font-size:13px;font-weight:500;color:var(--gold2)}
+.save-btn{width:100%;margin-top:10px;padding:8px;background:var(--green);border:1px solid var(--gold);border-radius:5px;color:var(--gold);font-size:12px;cursor:pointer;font-weight:500}
+.save-btn:hover{background:var(--green2)}
+
+/* STATS */
+.stat-bar-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border2)}
+.stat-bar-row:last-child{border-bottom:none}
+.stat-name{font-size:12px;color:var(--text);width:160px;flex-shrink:0}
+.stat-bar-wrap{flex:1;background:var(--bg3);border-radius:3px;height:8px;overflow:hidden}
+.stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width 0.5s}
+.stat-val{font-size:12px;color:var(--gold2);width:50px;text-align:right;flex-shrink:0}
+
+/* FINANCIALS PAGE */
+.fin-table{width:100%;border-collapse:collapse}
+.fin-table th{font-size:10px;color:var(--text3);padding:6px 8px;border-bottom:1px solid var(--border2);text-align:left;text-transform:uppercase;letter-spacing:0.5px}
+.fin-table td{padding:7px 8px;border-bottom:1px solid var(--border2);font-size:12px}
+.fin-table tr:last-child td{border-bottom:none}
+.fin-table tr:hover td{background:rgba(201,168,76,0.04)}
+.settlement-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px}
+.settlement-title{font-size:11px;color:var(--gold);margin-bottom:8px;font-weight:500}
+.settlement-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--text2);border-bottom:1px solid var(--border2)}
+.settlement-row:last-child{border-bottom:none}
+.arrow-icon{color:var(--red);font-size:14px}
+
+/* COUNTDOWN */
+.countdown-big{font-family:'Cinzel',serif;font-size:36px;color:var(--gold);text-align:center;letter-spacing:2px}
+
+/* FOOTER */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text3)}
+.footer-motto{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);opacity:0.7}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{width:140px}.main{margin-left:140px}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .topbar-widgets{gap:6px}
+}
+@media(max-width:650px){
+  .sidebar{display:none}.main{margin-left:0}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+
+/* LOGIN */
+.login-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:40px 36px;text-align:center;width:320px;box-shadow:0 8px 40px rgba(0,0,0,0.6)}
+.login-crest{font-size:42px;margin-bottom:12px}
+.login-title{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.login-sub{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:28px}
+.login-label{font-size:11px;color:var(--text2);letter-spacing:0.5px;margin-bottom:8px;text-align:left}
+.login-input{width:100%;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold);font-size:22px;font-family:'Cinzel',serif;text-align:center;letter-spacing:8px;margin-bottom:16px;outline:none}
+.login-input:focus{border-color:var(--gold)}
+.login-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f00;font-size:14px;font-weight:700;font-family:'Cinzel',serif;letter-spacing:1px;border:none;border-radius:6px;cursor:pointer}
+.login-btn:hover{opacity:0.9}
+.login-error{font-size:12px;color:#e05050;margin-top:10px;min-height:18px}
+.login-footer{font-size:10px;color:var(--text3);margin-top:20px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-crest">⚜️</div>
+    <div class="login-title">THE SCOTTISH EIGHT</div>
+    <div class="login-sub">SCOTLAND 2026 · MEMBERS ONLY</div>
+    <div class="login-label">Código de acesso</div>
+    <input class="login-input" id="login-input" type="password" maxlength="4" placeholder="····" onkeydown="if(event.key==='Enter')checkCode()">
+    <button class="login-btn" onclick="checkCode()">ENTRAR</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-footer">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Play Hard. Respect the Links. Enjoy Scotland.</div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo-area">
+    <div class="crest">⚜️</div>
+    <h2>THE SCOTTISH<br>EIGHT</h2>
+    <p>INDIVIDUAL STABLEFORD<br>CHAMPIONSHIP</p>
+  </div>
+  <div class="nav">
+    <div class="nav-item active" onclick="showPage('home',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      HOME
+    </div>
+    <div class="nav-item" onclick="showPage('leaderboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      LEADERBOARD
+    </div>
+    <div class="nav-item" onclick="showPage('live',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      LIVE SCORING
+    </div>
+    <div class="nav-item" onclick="showPage('players',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      PLAYERS
+    </div>
+    <div class="nav-item" onclick="showPage('schedule',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      SCHEDULE
+    </div>
+    <div class="nav-item" onclick="showPage('sidegames',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      SIDE GAMES
+    </div>
+    <div class="nav-item" onclick="showPage('stats',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      STATISTICS
+    </div>
+    <div class="nav-item" onclick="showPage('financials',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      FINANCIALS
+    </div>
+    <div class="nav-item" onclick="showPage('info',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      INFO
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <p>Scotland 2026</p>
+    <small>The Home of Golf</small>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title">
+      <h1>THE SCOTTISH EIGHT</h1>
+      <p>SCOTLAND 2026 · INDIVIDUAL STABLEFORD CHAMPIONSHIP</p>
+    </div>
+    <div class="topbar-widgets">
+      <div class="widget-box">
+        <div class="wlabel">Countdown</div>
+        <div class="wvalue" id="countdown-days">--</div>
+        <div class="wsub">DAYS TO TEE OFF</div>
+      </div>
+      <div class="widget-box">
+        <div class="wlabel">St Andrews</div>
+        <div class="wvalue">13°C</div>
+        <div class="wsub">⛅ SW 18km/h</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+      <div class="grid-2">
+        <!-- LEADERBOARD PANEL -->
+        <div class="panel" style="grid-column:1/2">
+          <div class="panel-header">
+            <h3>Leaderboard</h3>
+            <span>STABLEFORD (NET)</span>
+          </div>
+          <div class="panel-body" style="padding:0">
+            <table class="lb-table" style="padding:0">
+              <thead>
+                <tr>
+                  <th>Pos</th><th>Player</th><th>HCP</th>
+                  <th class="center">R1</th><th class="center">R2</th><th class="center">R3</th>
+                  <th class="center">R4</th><th class="center">R5</th><th class="center">R6</th>
+                  <th class="center">Total</th>
+                </tr>
+              </thead>
+              <tbody id="home-lb-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <!-- PRÓXIMA RODADA -->
+          <div class="panel">
+            <div class="panel-header"><h3>Próxima Rodada</h3></div>
+            <div class="panel-body">
+              <div id="next-round-content"></div>
+            </div>
+          </div>
+          <!-- RESUMO FINANCEIRO -->
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Resumo Financeiro</h3>
+              <span id="fin-subtitle">Saldo Geral</span>
+            </div>
+            <div class="panel-body" id="home-fin-body"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- SIDE GAMES RESUMO -->
+        <div class="panel">
+          <div class="panel-header"><h3>Side Games</h3></div>
+          <div class="panel-body">
+            <div class="sg-section">
+              <div class="sg-title">🎯 Closest to the Pin (R$2 por jogador)</div>
+              <div id="sg-ctp-home"></div>
+            </div>
+            <div class="sg-section">
+              <div class="sg-title">💪 Longest Drive (R$2 por jogador)</div>
+              <div id="sg-ld-home"></div>
+            </div>
+          </div>
+        </div>
+        <!-- ESTRUTURA DE APOSTAS -->
+        <div class="panel">
+          <div class="panel-header"><h3>Estrutura de Apostas</h3></div>
+          <div class="panel-body">
+            <div style="font-size:10px;color:var(--text3);text-align:center;margin-bottom:6px;letter-spacing:0.5px">NASSAU (POR CONFRONTO)</div>
+            <div class="nassau-boxes">
+              <div class="nassau-box"><div class="nval">R$10</div><div class="nlabel">Front 9</div></div>
+              <div class="nassau-plus">+</div>
+              <div class="nassau-box"><div class="nval">R$10</div><div class="nlabel">Back 9</div></div>
+              <div class="nassau-plus">+</div>
+              <div class="nassau-box"><div class="nval">R$40</div><div class="nlabel">Match</div></div>
+            </div>
+            <div class="nassau-total" style="margin-bottom:10px">Total: <strong style="color:var(--gold)">R$60 por confronto</strong></div>
+            <div class="bet-line"><span>Buy-in Principal</span><span class="sweepstake-badge">R$50 por jogador</span></div>
+            <div class="bet-line"><span>Sweepstake por rodada</span><strong>R$400 pote</strong></div>
+            <div class="bet-line"><span>Closest to the Pin</span><strong>R$2 por jogador</strong></div>
+            <div class="bet-line"><span>Longest Drive</span><strong>R$2 por jogador</strong></div>
+            <div class="bet-line" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
+              <span style="color:var(--gold2);font-weight:500">Total em jogo (6 rounds)</span>
+              <strong style="color:var(--gold);font-size:14px">R$2.880+</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD PAGE -->
+    <div id="page-leaderboard" class="page">
+      <div class="panel full-row">
+        <div class="panel-header">
+          <h3>Leaderboard Completo — The Scottish Eight 2026</h3>
+          <span>Stableford Net · 6 Rodadas</span>
+        </div>
+        <div class="panel-body" style="padding:0">
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>Pos</th><th>Player</th><th>HCP</th>
+                <th class="center">R1<br><small style="font-size:9px;color:var(--text3)">Kingsbarns</small></th>
+                <th class="center">R2<br><small style="font-size:9px;color:var(--text3)">Kingsbarns</small></th>
+                <th class="center">R3<br><small style="font-size:9px;color:var(--text3)">Jubilee</small></th>
+                <th class="center">R4<br><small style="font-size:9px;color:var(--text3)">Old Course</small></th>
+                <th class="center">R5<br><small style="font-size:9px;color:var(--text3)">Panmure</small></th>
+                <th class="center">R6<br><small style="font-size:9px;color:var(--text3)">Dumbarnie</small></th>
+                <th class="center">Total</th>
+                <th class="center">Rds</th>
+                <th class="center">Média</th>
+              </tr>
+            </thead>
+            <tbody id="full-lb-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE SCORING PAGE -->
+    <div id="page-live" class="page">
+      <div class="live-round-tabs" id="live-round-tabs"></div>
+      <div id="live-course-info" style="margin-bottom:10px"></div>
+
+      <!-- CONFRONTOS -->
+      <div class="panel full-row" style="margin-bottom:12px">
+        <div class="panel-header">
+          <h3>🤝 Confrontos da Rodada</h3>
+          <span>Campo livre — cada um aposta com quem quiser</span>
+        </div>
+        <div class="panel-body">
+          <!-- Adicionar confronto -->
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+            <select id="cf-player1" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:5px;font-size:12px">
+              <option value="">Jogador A...</option>
+            </select>
+            <span style="color:var(--gold);font-size:16px;font-weight:300">vs</span>
+            <select id="cf-player2" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:5px;font-size:12px">
+              <option value="">Jogador B...</option>
+            </select>
+            <button onclick="adicionarConfronto()" style="padding:7px 16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f00;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">+ Adicionar</button>
+          </div>
+          <!-- Lista de confrontos -->
+          <div id="confrontos-lista" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onclick="salvarConfrontos()" style="padding:7px 16px;background:var(--green);border:1px solid var(--border);color:var(--gold);border-radius:5px;font-size:12px;cursor:pointer">💾 Salvar Confrontos</button>
+            <button onclick="limparConfrontos()" style="padding:7px 16px;background:rgba(224,80,80,0.1);border:1px solid rgba(224,80,80,0.3);color:#e05050;border-radius:5px;font-size:12px;cursor:pointer">🗑️ Limpar Confrontos</button>
+            <span id="confrontos-status" style="font-size:11px;color:var(--text3);align-self:center"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-entry-grid" id="live-score-grid"></div>
+      <div style="display:flex;gap:10px;max-width:620px;margin:12px auto">
+        <button class="save-btn" style="flex:2" onclick="saveRoundScores()">💾 Salvar Scores desta Rodada</button>
+        <button class="save-btn" style="flex:1" onclick="resetRound()">🗑️ Limpar Rodada</button>
+        <button class="save-btn" style="flex:1" onclick="resetAll()">⚠️ Limpar Tudo</button>
+      </div>
+    </div>
+
+    <!-- PLAYERS PAGE -->
+    <div id="page-players" class="page">
+      <div class="grid-4" id="players-grid"></div>
+    </div>
+
+    <!-- SCHEDULE PAGE -->
+    <div id="page-schedule" class="page">
+      <div class="panel full-row">
+        <div class="panel-header"><h3>Cronograma da Competição</h3><span>1–7 Junho 2026</span></div>
+        <div class="panel-body" id="schedule-body"></div>
+      </div>
+    </div>
+
+    <!-- SIDE GAMES PAGE -->
+    <div id="page-sidegames" class="page">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header"><h3>🎯 Closest to the Pin</h3><span>R$2 por jogador · R$16 pote</span></div>
+          <div class="panel-body" id="ctp-full"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>💪 Longest Drive</h3><span>R$2 por jogador · R$16 pote</span></div>
+          <div class="panel-body" id="ld-full"></div>
+        </div>
+      </div>
+      <div class="panel full-row">
+        <div class="panel-header"><h3>Sweepstake</h3><span>R$50 por jogador · R$400 por rodada · R$2.400 total</span></div>
+        <div class="panel-body">
+          <div id="sweepstake-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATISTICS PAGE -->
+    <div id="page-stats" class="page">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header"><h3>Ranking por Pontuação Total</h3></div>
+          <div class="panel-body" id="stats-bar"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Média por Rodada</h3></div>
+          <div class="panel-body" id="stats-avg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCIALS PAGE -->
+    <div id="page-financials" class="page">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header"><h3>Money List</h3><span>Saldo completo</span></div>
+          <div class="panel-body" style="padding:0">
+            <table class="fin-table">
+              <thead><tr><th>Pos</th><th>Player</th><th>Ganhos</th><th>Perdas</th><th>Saldo</th></tr></thead>
+              <tbody id="fin-full-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Acerto de Contas</h3><span>Transferências necessárias</span></div>
+          <div class="panel-body" id="settlement-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO PAGE -->
+    <div id="page-info" class="page">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header"><h3>Regras do Torneio</h3></div>
+          <div class="panel-body">
+            <div style="line-height:1.9;color:var(--text2);font-size:13px">
+              <p style="color:var(--gold);font-weight:500;margin-bottom:8px">Formato</p>
+              <p>• Individual Stableford Net com handicap WHS</p>
+              <p>• 6 rodadas em 6 campos distintos</p>
+              <p>• 8 jogadores — Grupo Guglielmetti</p>
+              <br>
+              <p style="color:var(--gold);font-weight:500;margin-bottom:8px">Apostas por Rodada</p>
+              <p>• <strong style="color:var(--gold2)">Melhor Ida (F9):</strong> R$10 × 8 = R$80 pote</p>
+              <p>• <strong style="color:var(--gold2)">Melhor Volta (B9):</strong> R$10 × 8 = R$80 pote</p>
+              <p>• <strong style="color:var(--gold2)">Melhor Jogo:</strong> R$40 × 8 = R$320 pote</p>
+              <p>• <strong style="color:var(--gold2)">Sweepstake:</strong> R$50 × 8 = R$400 pote</p>
+              <p>• <strong style="color:var(--gold2)">CTP:</strong> R$2 × 8 = R$16 pote</p>
+              <p>• <strong style="color:var(--gold2)">Longest Drive:</strong> R$2 × 8 = R$16 pote</p>
+              <br>
+              <p style="color:var(--gold);font-weight:500;margin-bottom:8px">Sweepstake</p>
+              <p>• Sorteio antes de cada rodada</p>
+              <p>• Cada jogador recebe outro jogador sorteado</p>
+              <p>• Quem tiver o melhor score ganha o pote de R$400</p>
+              <p>• Em caso de empate: divisão do pote</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Campos & Datas</h3></div>
+          <div class="panel-body">
+            <div style="line-height:1.9;color:var(--text2);font-size:13px">
+              <p style="color:var(--gold);font-weight:500;margin-bottom:8px">Roteiro</p>
+              <p>📅 01/jun — Chegada</p>
+              <p>⛳ 02/jun — Kingsbarns Golf Links (R1)</p>
+              <p>⛳ 03/jun — Kingsbarns Golf Links (R2)</p>
+              <p>⛳ 04/jun — St Andrews Jubilee Course (R3)</p>
+              <p>⛳ 05/jun — St Andrews Old Course (R4)</p>
+              <p>⛳ 06/jun — Panmure Golf Club (R5)</p>
+              <p>⛳ 07/jun — Dumbarnie Golf Links (R6)</p>
+              <br>
+              <p style="color:var(--gold);font-weight:500;margin-bottom:8px">Valores em Reais (R$)</p>
+              <p>• Todos os valores são em BRL (R$)</p>
+              <p>• Acerto de contas ao final da viagem</p>
+              <p>• Transferências diretas entre os jogadores</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <span>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Tradição. Amizade. Competição. Six Iconic Courses. One Unforgettable Week.</span>
+    <span class="footer-motto">The Scottish Eight</span>
+    <span>Play Hard. Respect the Links. Enjoy Scotland. 🏌️</span>
+  </div>
+</div>
+
+<script>
+const CODE='1818';
+function checkCode(){
+  const val=document.getElementById('login-input').value;
+  if(val===CODE){
+    try{sessionStorage.setItem('s8_auth','1');}catch(e){}
+    document.getElementById('login-screen').style.display='none';
+  }else{
+    document.getElementById('login-error').textContent='Código incorreto. Tente novamente.';
+    document.getElementById('login-input').value='';
+    document.getElementById('login-input').focus();
+  }
+}
+// Check if already authenticated this session
+try{if(sessionStorage.getItem('s8_auth')==='1')document.getElementById('login-screen').style.display='none';}catch(e){}
+
+const PLAYERS=[
+  {name:"Guilherme Rezende",short:"GR",hcp:7.3},
+  {name:"Rubens Naves",short:"RN",hcp:7.2},
+  {name:"Cacá Teixeira Leite",short:"CT",hcp:8.7},
+  {name:"Patrick Hruby",short:"PH",hcp:8.7},
+  {name:"Ricardo Lisboa",short:"RL",hcp:10.6},
+  {name:"Fritz Stockler",short:"FS",hcp:11.7},
+  {name:"Claudio Rodriguez",short:"CR",hcp:12.6},
+  {name:"Ricardo Campos",short:"RC",hcp:16.7}
+];
+
+const ROUNDS=[
+  {id:"r1",label:"R1",date:"02/06",course:"Kingsbarns Golf Links",par:72,tee:"11:30 · 11:40",
+   ctp:{hole:15,par:3},ld:{hole:12,par:5}},
+  {id:"r2",label:"R2",date:"03/06",course:"Kingsbarns Golf Links",par:72,tee:"10:20 · 10:30",
+   ctp:{hole:13,par:3},ld:{hole:6,par:5}},
+  {id:"r3",label:"R3",date:"04/06",course:"St. Andrews Jubilee Course",par:72,tee:"15:12 · 15:20",
+   ctp:{hole:7,par:3},ld:{hole:18,par:5}},
+  {id:"r4",label:"R4",date:"05/06",course:"St. Andrews Old Course",par:72,tee:"09:50 · 10:00",
+   ctp:{hole:8,par:3},ld:{hole:14,par:5}},
+  {id:"r5",label:"R5",date:"06/06",course:"Panmure Golf Club",par:70,tee:"14:00 · 14:10",
+   ctp:{hole:4,par:3},ld:{hole:13,par:5}},
+  {id:"r6",label:"R6",date:"07/06",course:"Dumbarnie Golf Links",par:72,tee:"08:40 · 08:50",
+   ctp:{hole:5,par:3},ld:{hole:13,par:5}}
+];
+
+let confrontos={};// {r1:[{a:"Nome",b:"Nome"},...], r2:...}
+try{const c=localStorage.getItem('s8_confrontos_2026');if(c)confrontos=JSON.parse(c);}catch(e){}
+function saveConfrontosStorage(){try{localStorage.setItem('s8_confrontos_2026',JSON.stringify(confrontos));}catch(e){}}
+
+function renderConfrontos(){
+  const rid=currentLiveRound;
+  const lista=confrontos[rid]||[];
+  const el=document.getElementById('confrontos-lista');
+  if(!el)return;
+  if(!lista.length){
+    el.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:8px 0">Nenhum confronto registrado ainda.</div>`;
+    return;
+  }
+  el.innerHTML=lista.map((cf,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:7px 12px">
+      <span style="font-size:12px;color:var(--text);flex:1">${cf.a}</span>
+      <span style="color:var(--gold);font-size:13px">vs</span>
+      <span style="font-size:12px;color:var(--text);flex:1;text-align:right">${cf.b}</span>
+      <button onclick="removerConfronto(${i})" style="background:none;border:none;color:rgba(224,80,80,0.7);cursor:pointer;font-size:16px;padding:0 4px" title="Remover">×</button>
+    </div>`).join('');
+  document.getElementById('confrontos-status').textContent=`${lista.length} confronto${lista.length>1?'s':''} registrado${lista.length>1?'s':''}`;
+}
+
+function adicionarConfronto(){
+  const a=document.getElementById('cf-player1').value;
+  const b=document.getElementById('cf-player2').value;
+  if(!a||!b){alert('Selecione os dois jogadores.');return;}
+  if(a===b){alert('Selecione jogadores diferentes.');return;}
+  const rid=currentLiveRound;
+  if(!confrontos[rid])confrontos[rid]=[];
+  const jaExiste=confrontos[rid].some(cf=>(cf.a===a&&cf.b===b)||(cf.a===b&&cf.b===a));
+  if(jaExiste){alert('Este confronto já foi registrado.');return;}
+  confrontos[rid].push({a,b});
+  document.getElementById('cf-player1').value='';
+  document.getElementById('cf-player2').value='';
+  renderConfrontos();
+}
+
+function removerConfronto(idx){
+  const rid=currentLiveRound;
+  confrontos[rid].splice(idx,1);
+  renderConfrontos();
+}
+
+function salvarConfrontos(){
+  saveConfrontosStorage();
+  document.getElementById('confrontos-status').textContent='✅ Confrontos salvos!';
+  renderMoney();renderFinancials();
+}
+
+function limparConfrontos(){
+  if(!confirm('Limpar todos os confrontos desta rodada?'))return;
+  confrontos[currentLiveRound]=[];
+  saveConfrontosStorage();
+  renderConfrontos();
+}
+
+
+let currentLiveRound="r1";
+let sweepstake={};
+
+try{const s=localStorage.getItem('s8_scores_2026');if(s)scores=JSON.parse(s);}catch(e){}
+try{const s=localStorage.getItem('s8_sweep_2026');if(s)sweepstake=JSON.parse(s);}catch(e){}
+
+function save(){
+  try{localStorage.setItem('s8_scores_2026',JSON.stringify(scores));}catch(e){}
+}
+
+function calcStableford(holes,hcp){
+  const pars=[4,4,5,3,4,5,4,3,4,4,4,5,3,4,3,4,4,4];
+  const hcps=[9,17,1,13,5,11,15,7,3,10,16,2,14,6,18,8,12,4];
+  let total=0,ida=0,volta=0;
+  holes.forEach((s,i)=>{
+    if(!s||s<=0)return;
+    const strokes=Math.floor(hcp/18)+(hcps[i]<=(hcp%18)?1:0);
+    const net=s-strokes;
+    const pts=Math.max(0,(pars[i]-net)+2);
+    total+=pts;
+    if(i<9)ida+=pts;else volta+=pts;
+  });
+  return{total,ida,volta};
+}
+
+function getRoundTotals(){
+  return PLAYERS.map(p=>{
+    let total=0,rounds=0,rScores=[];
+    ROUNDS.forEach(r=>{
+      const rd=scores[r.id]||{};
+      const hs=rd[p.name]||[];
+      if(hs.some(x=>x>0)){
+        const{total:t,ida,volta}=calcStableford(hs,p.hcp);
+        total+=t;rounds++;
+        rScores.push({t,ida,volta});
+      }else{
+        rScores.push(null);
+      }
+    });
+    return{...p,total,rounds,avg:rounds?(total/rounds).toFixed(1):'—',rScores};
+  }).sort((a,b)=>b.total-a.total);
+}
+
+function calcMoney(){
+  return PLAYERS.map(p=>{
+    let ganhos=0,perdas=0;
+    ROUNDS.forEach(r=>{
+      const rd=scores[r.id]||{};
+      const hasData=PLAYERS.some(pl=>(rd[pl.name]||[]).some(x=>x>0));
+      if(!hasData)return;
+      const cfs=confrontos[r.id]||[];
+      // get all matchups involving this player
+      const myCfs=cfs.filter(cf=>cf.a===p.name||cf.b===p.name);
+      if(!myCfs.length)return;
+      myCfs.forEach(cf=>{
+        const opp=cf.a===p.name?cf.b:cf.a;
+        const oppPlayer=PLAYERS.find(x=>x.name===opp);
+        if(!oppPlayer)return;
+        const mine=calcStableford(rd[p.name]||[],p.hcp);
+        const theirs=calcStableford(rd[opp]||[],oppPlayer.hcp);
+        perdas+=60;
+        // Ida (F9) R$10 each side
+        if(mine.ida>theirs.ida)ganhos+=20;
+        else if(mine.ida===theirs.ida)ganhos+=10;
+        // Volta (B9) R$10 each side
+        if(mine.volta>theirs.volta)ganhos+=20;
+        else if(mine.volta===theirs.volta)ganhos+=10;
+        // Jogo total R$40 each side
+        if(mine.total>theirs.total)ganhos+=80;
+        else if(mine.total===theirs.total)ganhos+=40;
+      });
+    });
+    return{...p,ganhos:Math.round(ganhos),perdas:Math.round(perdas),saldo:Math.round(ganhos-perdas)};
+  }).sort((a,b)=>b.saldo-a.saldo);
+}
+
+function renderHomeLB(){
+  const data=getRoundTotals();
+  document.getElementById('home-lb-body').innerHTML=data.map((p,i)=>{
+    const pc=i===0?'pos-1':i===1?'pos-2':i===2?'pos-3':'pos-other';
+    const rdCells=ROUNDS.map((_,ri)=>{
+      const rs=p.rScores[ri];
+      return rs?`<td class="rd-score has-score">${rs.t}</td>`:`<td class="rd-score"><span class="dash">–</span></td>`;
+    }).join('');
+    return`<tr>
+      <td><span class="pos-badge ${pc}">${i+1}</span></td>
+      <td>${p.name}</td>
+      <td><span class="hcp-pill">${p.hcp}</span></td>
+      ${rdCells}
+      <td class="total-score">${p.total||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderFullLB(){
+  const data=getRoundTotals();
+  document.getElementById('full-lb-body').innerHTML=data.map((p,i)=>{
+    const pc=i===0?'pos-1':i===1?'pos-2':i===2?'pos-3':'pos-other';
+    const rdCells=ROUNDS.map((_,ri)=>{
+      const rs=p.rScores[ri];
+      return rs?`<td class="rd-score has-score">${rs.t}</td>`:`<td class="rd-score"><span class="dash">–</span></td>`;
+    }).join('');
+    return`<tr>
+      <td><span class="pos-badge ${pc}">${i+1}</span></td>
+      <td>${p.name}</td>
+      <td><span class="hcp-pill">${p.hcp}</span></td>
+      ${rdCells}
+      <td class="total-score">${p.total||'—'}</td>
+      <td style="color:var(--text3)">${p.rounds}</td>
+      <td style="color:var(--text2)">${p.avg}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderNextRound(){
+  const now=new Date();
+  const tee=new Date('2026-06-02');
+  let nextIdx=0;
+  for(let i=0;i<ROUNDS.length;i++){
+    const rd=scores[ROUNDS[i].id]||{};
+    if(!PLAYERS.some(p=>(rd[p.name]||[]).some(x=>x>0))){nextIdx=i;break;}
+    if(i===ROUNDS.length-1)nextIdx=i;
+  }
+  const r=ROUNDS[nextIdx];
+  document.getElementById('next-round-content').innerHTML=`
+    <div style="background:var(--green2);border-radius:5px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:1px">⛳ ${r.course}</div>
+    <div class="next-round-num" style="color:var(--text3)">Round ${nextIdx+1} de 6</div>
+    <div class="next-course">${r.course}</div>
+    <div class="next-info-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      ${r.date} de Junho de 2026
+    </div>
+    <div class="next-info-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      Tee Times: ${r.tee}
+    </div>
+    <div class="next-info-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Formato: Stableford Net · Par ${r.par}
+    </div>
+    <div class="next-info-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      CTP: Bur.${r.ctp.hole} · LD: Bur.${r.ld.hole}
+    </div>
+    <button class="btn-gold" onclick="showPage('schedule',document.querySelector('.nav-item:nth-child(5)'))">Ver Cronograma Completo</button>
+  `;
+}
+
+function renderHomeFin(){
+  const data=calcMoney();
+  const hasRounds=ROUNDS.some(r=>PLAYERS.some(p=>(scores[r.id]||{})[p.name]?.some(x=>x>0)));
+  document.getElementById('fin-subtitle').textContent=hasRounds?`Após ${ROUNDS.filter(r=>PLAYERS.some(p=>(scores[r.id]||{})[p.name]?.some(x=>x>0))).length} rodadas`:'Sem scores lançados';
+  document.getElementById('home-fin-body').innerHTML=data.map((p,i)=>{
+    const cls=p.saldo>=0?'fin-pos':'fin-neg';
+    const sign=p.saldo>=0?'+':'';
+    return`<div class="fin-row">
+      <span><span class="fin-rank">${i+1}</span>${p.name}</span>
+      <span class="${cls}">${sign}R$${p.saldo}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderSideGamesHome(){
+  document.getElementById('sg-ctp-home').innerHTML=ROUNDS.map(r=>`
+    <div class="sg-row">
+      <span>${r.course.replace('St. Andrews ','St.A. ').replace(' Golf Links','').replace(' Golf Club','')}</span>
+      <span class="sg-hole">Bur. ${r.ctp.hole} · Par ${r.ctp.par}</span>
+    </div>`).join('');
+  document.getElementById('sg-ld-home').innerHTML=ROUNDS.map(r=>`
+    <div class="sg-row">
+      <span>${r.course.replace('St. Andrews ','St.A. ').replace(' Golf Links','').replace(' Golf Club','')}</span>
+      <span class="sg-hole">Bur. ${r.ld.hole} · Par ${r.ld.par}</span>
+    </div>`).join('');
+}
+
+function renderSideGamesFull(){
+  document.getElementById('ctp-full').innerHTML=ROUNDS.map((r,i)=>`
+    <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
+      <div style="font-size:10px;color:var(--text3);margin-bottom:3px">${r.label} · ${r.date}/2026</div>
+      <div style="font-size:13px;color:var(--text)">${r.course}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span class="sg-hole">Buraco ${r.ctp.hole} · Par ${r.ctp.par}</span>
+        <span style="font-size:11px;color:var(--gold)">Pote: R$${8*2}</span>
+      </div>
+      <div style="margin-top:6px;font-size:11px;color:var(--text3)">Vencedor: <span id="ctp-win-${r.id}" style="color:var(--gold2)">${(scores['ctp_'+r.id]||'—')}</span>
+        <button onclick="setCTPWinner('${r.id}')" style="margin-left:8px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text2);padding:2px 8px;font-size:10px;cursor:pointer">Registrar</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('ld-full').innerHTML=ROUNDS.map(r=>`
+    <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
+      <div style="font-size:10px;color:var(--text3);margin-bottom:3px">${r.label} · ${r.date}/2026</div>
+      <div style="font-size:13px;color:var(--text)">${r.course}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span class="sg-hole">Buraco ${r.ld.hole} · Par ${r.ld.par}</span>
+        <span style="font-size:11px;color:var(--gold)">Pote: R$${8*2}</span>
+      </div>
+      <div style="margin-top:6px;font-size:11px;color:var(--text3)">Vencedor: <span id="ld-win-${r.id}" style="color:var(--gold2)">${(scores['ld_'+r.id]||'—')}</span>
+        <button onclick="setLDWinner('${r.id}')" style="margin-left:8px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text2);padding:2px 8px;font-size:10px;cursor:pointer">Registrar</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('sweepstake-body').innerHTML=`
+    <div style="margin-bottom:12px;color:var(--text2);font-size:13px;line-height:1.7">
+      <strong style="color:var(--gold)">Como funciona:</strong> Antes de cada rodada, sorteio define qual jogador você "compra" pelo valor de R$50. 
+      Se o jogador que você sorteou ganhar o round (melhor Stableford Net), você leva o pote de <strong style="color:var(--gold2)">R$400</strong>.
+    </div>
+    ${ROUNDS.map(r=>`
+    <div class="settlement-card">
+      <div class="settlement-title">${r.label} · ${r.course} · ${r.date}/2026 · Pote: R$400</div>
+      ${PLAYERS.map(p=>`
+        <div class="settlement-row">
+          <span style="color:var(--text);min-width:160px">${p.name}</span>
+          <span style="color:var(--text3)">sorteou →</span>
+          <select onchange="saveSweepstake('${r.id}','${p.name}',this.value)" 
+            style="background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:3px 6px;border-radius:3px;font-size:11px;flex:1">
+            <option value="">— sorteio pendente —</option>
+            ${PLAYERS.map(p2=>`<option value="${p2.name}" ${(sweepstake[r.id]||{})[p.name]===p2.name?'selected':''}>${p2.name}</option>`).join('')}
+          </select>
+        </div>`).join('')}
+    </div>`).join('')}
+  `;
+}
+
+function setCTPWinner(rid){
+  const name=prompt('Nome do vencedor do CTP:');
+  if(name){scores['ctp_'+rid]=name;save();document.getElementById('ctp-win-'+rid).textContent=name;}
+}
+function setLDWinner(rid){
+  const name=prompt('Nome do vencedor do Longest Drive:');
+  if(name){scores['ld_'+rid]=name;save();document.getElementById('ld-win-'+rid).textContent=name;}
+}
+function saveSweepstake(rid,player,selected){
+  if(!sweepstake[rid])sweepstake[rid]={};
+  sweepstake[rid][player]=selected;
+  try{localStorage.setItem('s8_sweep_2026',JSON.stringify(sweepstake));}catch(e){}
+}
+
+function renderPlayers(){
+  document.getElementById('players-grid').innerHTML=PLAYERS.map(p=>{
+    const data=getRoundTotals().find(x=>x.name===p.name)||{total:0,rounds:0,avg:'—'};
+    return`<div class="player-card">
+      <div class="player-avatar">${p.short}</div>
+      <div class="player-name">${p.name}</div>
+      <div class="player-hcp">HCP Index: ${p.hcp}</div>
+      <div class="player-stats-row">
+        <div class="player-stat"><div class="ps-val">${data.total||0}</div><div class="ps-lbl">Pts Total</div></div>
+        <div class="player-stat"><div class="ps-val">${data.rounds||0}</div><div class="ps-lbl">Rounds</div></div>
+        <div class="player-stat"><div class="ps-val">${data.avg}</div><div class="ps-lbl">Média</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSchedule(){
+  document.getElementById('schedule-body').innerHTML=ROUNDS.map((r,i)=>`
+    <div class="sched-row">
+      <div class="sched-rd">${r.label}</div>
+      <div class="sched-thumb" style="background:var(--green2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px">⛳</div>
+      <div style="flex:1">
+        <div class="sched-date">${r.date} de Junho de 2026</div>
+        <div class="sched-course">${r.course}</div>
+        <div class="sched-format">Stableford Net · Par ${r.par} · Tee: ${r.tee}</div>
+      </div>
+      <div class="sched-ctp">
+        <span>CTP: Bur.${r.ctp.hole}</span>
+        <span>LD: Bur.${r.ld.hole}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderStats(){
+  const data=getRoundTotals();
+  const maxPts=Math.max(...data.map(d=>d.total),1);
+  document.getElementById('stats-bar').innerHTML=data.map((p,i)=>`
+    <div class="stat-bar-row">
+      <div class="stat-name">${p.name}</div>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:${Math.round(p.total/maxPts*100)}%"></div></div>
+      <div class="stat-val">${p.total}</div>
+    </div>`).join('');
+  const maxAvg=Math.max(...data.map(d=>parseFloat(d.avg)||0),1);
+  document.getElementById('stats-avg').innerHTML=data.map(p=>`
+    <div class="stat-bar-row">
+      <div class="stat-name">${p.name}</div>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:${Math.round((parseFloat(p.avg)||0)/maxAvg*100)}%;background:linear-gradient(90deg,#4caf7a,#9FE1CB)"></div></div>
+      <div class="stat-val">${p.avg}</div>
+    </div>`).join('');
+}
+
+function renderFinancials(){
+  const data=calcMoney();
+  document.getElementById('fin-full-body').innerHTML=data.map((p,i)=>{
+    const cls=p.saldo>=0?'fin-pos':'fin-neg';
+    const sign=p.saldo>=0?'+':'';
+    return`<tr>
+      <td>${i+1}</td>
+      <td>${p.name}</td>
+      <td style="color:var(--pos)">R$${p.ganhos}</td>
+      <td style="color:var(--red)">R$${p.perdas}</td>
+      <td class="${cls}">${sign}R$${p.saldo}</td>
+    </tr>`;
+  }).join('');
+  const winners=data.filter(d=>d.saldo>0);
+  const losers=data.filter(d=>d.saldo<0);
+  let settlements=[];
+  const wCopy=winners.map(w=>({...w}));
+  const lCopy=losers.map(l=>({...l,saldo:-l.saldo}));
+  lCopy.forEach(l=>{
+    let rem=l.saldo;
+    wCopy.forEach(w=>{
+      if(rem<=0||w.saldo<=0)return;
+      const amt=Math.min(rem,w.saldo);
+      settlements.push({from:l.name,to:w.name,amt:Math.round(amt)});
+      rem-=amt;w.saldo-=amt;
+    });
+  });
+  document.getElementById('settlement-body').innerHTML=settlements.length?
+    settlements.map(s=>`
+      <div class="settlement-card">
+        <div class="settlement-row">
+          <span style="color:var(--red)">${s.from}</span>
+          <span class="arrow-icon">→</span>
+          <span style="color:var(--pos)">${s.to}</span>
+          <span style="margin-left:auto;color:var(--gold);font-weight:600">R$${s.amt}</span>
+        </div>
+      </div>`).join('')
+    :`<div style="color:var(--text3);font-size:13px;text-align:center;padding:20px">Nenhuma transferência necessária ainda</div>`;
+}
+
+function renderLiveTabs(){
+  document.getElementById('live-round-tabs').innerHTML=ROUNDS.map(r=>`
+    <button class="live-tab ${r.id===currentLiveRound?'active':''}" onclick="setLiveRound('${r.id}')">${r.label} · ${r.date}</button>`).join('');
+  const r=ROUNDS.find(x=>x.id===currentLiveRound);
+  document.getElementById('live-course-info').innerHTML=`
+    <div class="panel" style="display:inline-block;padding:8px 14px;font-size:12px">
+      <strong style="color:var(--gold)">${r.course}</strong>
+      <span style="color:var(--text3);margin-left:12px">CTP: Bur.${r.ctp.hole}</span>
+      <span style="color:var(--text3);margin-left:12px">LD: Bur.${r.ld.hole}</span>
+    </div>`;
+  const rd=scores[currentLiveRound]||{};
+  document.getElementById('live-score-grid').innerHTML=PLAYERS.map((p,pi)=>{
+    const saved=rd[p.name]||Array(18).fill(0);
+    const{total,ida,volta}=calcStableford(saved,p.hcp);
+    return`<div class="score-card">
+      <div class="score-card-header">
+        <div class="score-card-name">${p.name} <span class="hcp-pill">${p.hcp}</span></div>
+        <div class="stbl-badge" id="live-stbl-${pi}">${total} pts</div>
+      </div>
+      <div class="holes-grid">${Array.from({length:18},(_,h)=>`<div class="hole-label">${h+1}</div>`).join('')}
+        ${saved.map((s,h)=>`<input class="hole-input" type="number" min="1" max="12" value="${s||''}" placeholder="${h+1}" id="lv${pi}h${h}" onchange="liveRecalc(${pi})">`).join('')}
+      </div>
+      <div class="halves-row">
+        <div class="half-box">Front 9<span id="live-ida-${pi}">${ida}</span></div>
+        <div class="half-box">Back 9<span id="live-volta-${pi}">${volta}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setLiveRound(id){currentLiveRound=id;renderLiveTabs();renderConfrontos();}
+
+function liveRecalc(pi){
+  const p=PLAYERS[pi];
+  const holes=Array.from({length:18},(_,h)=>parseInt(document.getElementById(`lv${pi}h${h}`)?.value)||0);
+  const{total,ida,volta}=calcStableford(holes,p.hcp);
+  document.getElementById(`live-stbl-${pi}`).textContent=`${total} pts`;
+  document.getElementById(`live-ida-${pi}`).textContent=ida;
+  document.getElementById(`live-volta-${pi}`).textContent=volta;
+}
+
+function saveRoundScores(){
+  if(!scores[currentLiveRound])scores[currentLiveRound]={};
+  PLAYERS.forEach((p,pi)=>{
+    scores[currentLiveRound][p.name]=Array.from({length:18},(_,h)=>parseInt(document.getElementById(`lv${pi}h${h}`)?.value)||0);
+  });
+  save();renderHomeLB();renderFullLB();renderHomeFin();renderStats();renderFinancials();
+  alert('✅ Scores salvos com sucesso!');
+}
+
+function resetRound(){
+  const r=ROUNDS.find(x=>x.id===currentLiveRound);
+  if(!confirm(`Limpar todos os scores de ${r.course} (${r.date})?\nEsta ação não pode ser desfeita.`))return;
+  delete scores[currentLiveRound];
+  save();
+  renderLiveTabs();
+  renderHomeLB();renderFullLB();renderHomeFin();renderStats();renderFinancials();
+  alert('🗑️ Scores da rodada apagados.');
+}
+
+function resetAll(){
+  if(!confirm('⚠️ Limpar TODOS os scores de todas as rodadas?\nEsta ação não pode ser desfeita.'))return;
+  if(!confirm('Tem certeza? Todos os dados serão perdidos.'))return;
+  scores={};
+  try{localStorage.removeItem('s8_scores_2026');}catch(e){}
+  renderLiveTabs();
+  renderHomeLB();renderFullLB();renderHomeFin();renderStats();renderFinancials();
+  alert('✅ Todos os dados foram apagados.');
+}
+
+function countdown(){
+  const tee=new Date('2026-06-02T08:00:00');
+  const now=new Date();
+  const diff=Math.floor((tee-now)/(1000*60*60*24));
+  document.getElementById('countdown-days').textContent=diff>0?diff:'TEE!';
+}
+
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='live'){renderLiveTabs();renderConfrontos();}
+  if(id==='sidegames')renderSideGamesFull();
+  if(id==='stats')renderStats();
+  if(id==='financials')renderFinancials();
+  if(id==='leaderboard')renderFullLB();
+}
+
+countdown();
+renderHomeLB();
+renderFullLB();
+renderNextRound();
+renderHomeFin();
+renderSideGamesHome();
+renderPlayers();
+renderSchedule();
+
+// Populate player selects
+function populateSelects(){
+  ['cf-player1','cf-player2'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    const placeholder=sel.options[0];
+    sel.innerHTML='';
+    sel.appendChild(placeholder);
+    PLAYERS.forEach(p=>{
+      const opt=document.createElement('option');
+      opt.value=p.name;opt.textContent=p.name;
+      sel.appendChild(opt);
+    });
+  });
+}
+populateSelects();
+</script>
+</body>
+</html>
