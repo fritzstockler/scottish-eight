@@ -447,10 +447,26 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
             <select id="cf-player1" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:5px;font-size:12px">
               <option value="">Jogador A...</option>
+              <option value="Guilherme Rezende">Guilherme Rezende</option>
+              <option value="Rubens Naves">Rubens Naves</option>
+              <option value="Cacá Teixeira Leite">Cacá Teixeira Leite</option>
+              <option value="Patrick Hruby">Patrick Hruby</option>
+              <option value="Ricardo Lisboa">Ricardo Lisboa</option>
+              <option value="Fritz Stockler">Fritz Stockler</option>
+              <option value="Claudio Rodriguez">Claudio Rodriguez</option>
+              <option value="Ricardo Campos">Ricardo Campos</option>
             </select>
             <span style="color:var(--gold);font-size:16px;font-weight:300">vs</span>
             <select id="cf-player2" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:5px;font-size:12px">
               <option value="">Jogador B...</option>
+              <option value="Guilherme Rezende">Guilherme Rezende</option>
+              <option value="Rubens Naves">Rubens Naves</option>
+              <option value="Cacá Teixeira Leite">Cacá Teixeira Leite</option>
+              <option value="Patrick Hruby">Patrick Hruby</option>
+              <option value="Ricardo Lisboa">Ricardo Lisboa</option>
+              <option value="Fritz Stockler">Fritz Stockler</option>
+              <option value="Claudio Rodriguez">Claudio Rodriguez</option>
+              <option value="Ricardo Campos">Ricardo Campos</option>
             </select>
             <button onclick="adicionarConfronto()" style="padding:7px 16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f00;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">+ Adicionar</button>
           </div>
@@ -1124,23 +1140,6 @@ renderHomeFin();
 renderSideGamesHome();
 renderPlayers();
 renderSchedule();
-
-// Populate player selects
-function populateSelects(){
-  ['cf-player1','cf-player2'].forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel)return;
-    const placeholder=sel.options[0];
-    sel.innerHTML='';
-    sel.appendChild(placeholder);
-    PLAYERS.forEach(p=>{
-      const opt=document.createElement('option');
-      opt.value=p.name;opt.textContent=p.name;
-      sel.appendChild(opt);
-    });
-  });
-}
-populateSelects();
 </script>
 </body>
 </html>
